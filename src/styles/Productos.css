@@ -1,0 +1,150 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: white;
+  color: black;
+}
+
+.producto-container, .carrito-container, .usuarios-container {
+  background-color: white;
+  padding: 40px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 600px;
+  text-align: center;
+}
+
+h1 {
+  margin-bottom: 20px;
+  font-size: 24px;
+  color: black;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+li {
+  background-color: white;
+  margin: 10px 0;
+  padding: 15px;
+  border: 1px solid black;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+li strong {
+  color: black;
+}
+
+button {
+  width: 48%;
+  padding: 10px;
+  margin-top: 10px;
+  background-color: #007bff; 
+  border: 1px solid #007bff;
+  border-radius: 4px;
+  color: white;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+button:hover {
+  background-color: #0056b3; 
+  border: 1px solid #0056b3;
+}
+
+.error {
+  color: red;
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+@media (max-width: 600px) {
+  .producto-container, .carrito-container {
+    padding: 20px;
+  }
+
+  button {
+    width: 100%;
+    margin: 5px 0;
+  }
+}
+
+.carrito-vacio {
+  text-align: center;
+  font-size: 18px;
+  margin-top: 50px;
+  color: black;
+}
+
+.carrito-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.carrito-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  border: 1px solid black;
+  border-radius: 5px;
+  background-color: white;
+}
+
+.carrito-info {
+  flex: 1;
+  color: black;
+}
+
+.carrito-info h2 {
+  margin: 0 0 10px;
+}
+
+.carrito-info p {
+  margin: 5px 0;
+}
+
+.carrito-info input {
+  width: 50px;
+  text-align: center;
+}
+
+.carrito-total {
+  text-align: right;
+  margin-top: 20px;
+  color: black;
+}
+
+.carrito-total h2 {
+  font-size: 24px;
+}
+
+.carrito-total button {
+  padding: 10px 20px;
+  background-color: #28a745; 
+  color: white;
+  border: 1px solid #28a745;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.carrito-total button:hover {
+  background-color: #218838; 
+  border: 1px solid #218838;
+}

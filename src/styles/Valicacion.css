@@ -1,0 +1,14 @@
+.validar-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f0f0f0;
+    text-align: center;
+  }
+  
+  h1 {
+    font-size: 2rem;
+    color: #4caf50;
+  }
+  

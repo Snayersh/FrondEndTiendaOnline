@@ -1,0 +1,130 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: white;
+  color: black;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: rgb(231, 173, 87);
+  padding: 10px 20px;
+  color: black;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  z-index: 1000;
+  border-bottom: 1px solid black;
+}
+
+.left-menu,
+.right-menu {
+  display: flex;
+  gap: 30px;
+}
+
+.left-menu a,
+.right-menu a {
+  text-decoration: none;
+  color: black;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: color 0.3s;
+}
+
+.left-menu a:hover,
+.right-menu a:hover {
+  color: gray;
+}
+
+.search-form {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.search-form form {
+  display: flex;
+  gap: 7px;
+}
+
+.search-form input {
+  padding: 5px 10px;
+  border: 1px solid black;
+  border-radius: 4px;
+  font-size: 14px;
+  width: 350px;
+  background-color: white;
+  color: black;
+}
+
+.search-form button {
+  padding: 5px 10px;
+  background-color: white;
+  border: 1px solid black;
+  border-radius: 4px;
+  color: black;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.search-form button:hover {
+  background-color: black;
+  color: white;
+}
+
+.categorias-menu {
+  position: relative;
+}
+
+.categorias-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: white;
+  list-style: none;
+  margin: 0;
+  padding: 10px 0;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  border: 1px solid black;
+  border-radius: 4px;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.categorias-menu:hover .categorias-dropdown {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.categorias-dropdown li {
+  padding: 10px 20px;
+  color: black;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.categorias-dropdown li:hover {
+  background-color: black;
+  color: white;
+}
+
+.categorias-dropdown li + li {
+  border-top: 1px solid black;
+}

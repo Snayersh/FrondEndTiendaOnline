@@ -1,0 +1,130 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: white;
+  color: black;
+}
+
+.usuarios-container {
+  padding: 20px;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  color: black;
+  max-width: 100%;
+  width: 100%;
+  margin: 0 15px;
+  overflow-x: auto; 
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: black;
+}
+
+.usuarios-tabla {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0 auto;
+  background-color: white;
+  border-radius: 10px;
+  overflow: hidden;
+  table-layout: fixed;
+}
+
+.usuarios-tabla thead tr {
+  background-color: black;
+  color: white;
+}
+
+.usuarios-tabla th, .usuarios-tabla td {
+  padding: 10px 15px;
+  text-align: left;
+  border: 1px solid black;
+}
+
+.usuarios-tabla tbody tr:nth-child(even) {
+  background-color: white;
+}
+
+.usuarios-tabla tbody tr:hover {
+  background-color: #f4f4f4;
+}
+
+.acciones button {
+  margin: 0 5px;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  color: white;
+  background-color: black;
+}
+
+.acciones button:first-child {
+  background-color: #28a745; 
+}
+
+.acciones button:last-child {
+  background-color: #dc3545; 
+}
+
+.acciones button:hover {
+  opacity: 0.9;
+}
+
+@media (max-width: 768px) {
+  .usuarios-container {
+    padding: 15px;
+  }
+
+  .usuarios-tabla th, .usuarios-tabla td {
+    padding: 8px 12px;
+  }
+
+  .acciones button {
+    padding: 4px 8px;
+  }
+
+  .usuarios-tabla {
+    font-size: 12px;
+  }
+
+  .usuarios-tabla th, .usuarios-tabla td {
+    padding: 8px;
+    word-wrap: break-word;
+  }
+}
+
+@media (max-width: 480px) {
+  .usuarios-container {
+    padding: 10px;
+  }
+
+  h1 {
+    font-size: 18px;
+  }
+
+  .usuarios-tabla {
+    font-size: 10px;
+    width: 100%;
+    overflow-x: auto;   }
+
+  .acciones button {
+    padding: 3px 6px;
+  }
+
+  .usuarios-tabla th, .usuarios-tabla td {
+    padding: 5px;
+  }
+}
