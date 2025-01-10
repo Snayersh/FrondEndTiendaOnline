@@ -64,7 +64,7 @@ const Carrito = () => {
 
     const totalOrden = calcularTotal();
     const detalles = carrito.map((producto) => ({
-      idProducto: producto.id,
+      Productos_idProductos: producto.id,
       cantidad: producto.cantidad,
       precio: producto.precio,
     }));

@@ -6,7 +6,6 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import LoginIcon from "@mui/icons-material/Login";
 import HomeIcon from "@mui/icons-material/Home";
 import AccountBoxIcon from "@mui/icons-material/AccountBox";
-import SupervisorAccountIcon from "@mui/icons-material/SupervisorAccount";
 
 const Navbar = () => {
   const [categoriasActivas, setCategoriasActivas] = useState([]);
@@ -18,7 +17,7 @@ const Navbar = () => {
   const token = localStorage.getItem("token");
   const rolUsuario = localStorage.getItem("Rol");
 
-  const ocultarNavbar = ["/", "/login", "/Usuarios", "/Nuevo"].includes(
+  const ocultarNavbar = ["/", "/login",  "/Nuevo"].includes(
     location.pathname
   );
 
@@ -69,18 +68,16 @@ const Navbar = () => {
     navigate("/login");
   };
 
-  // Manejar la búsqueda de productos
   const handleSearchSubmit = async (e) => {
     e.preventDefault();
     if (searchQuery.trim()) {
       try {
         const response = await axios.get(
-          `http://localhost:3000/api/Productos?nombre=${searchQuery}`,
+          `http://localhost:3000/api/Producto/${searchQuery}`,
           {
             headers: { Authorization: `Bearer ${token}` },
           }
         );
-        console.log(response.data);
         navigate("/ResultadosBusqueda", {
           state: { productos: response.data },
         });
@@ -109,7 +106,7 @@ const Navbar = () => {
                   {categoriasActivas.map((categoria) => (
                     <li
                       key={categoria.id}
-                      onClick={() => navigate(`/categoria/${categoria.id}`)}
+                      onClick={() => navigate(`/CategoriaProducto/${categoria.id}`)}
                     >
                       {categoria.nombre}
                     </li>
@@ -132,11 +129,13 @@ const Navbar = () => {
               <button type="submit">Buscar</button>
             </form>
             <div className="acciones">
-                <button onClick={() => navigate("/ListapedidosActivos")}>Pedidos</button>
-              </div>
+              <button onClick={() => navigate("/ListapedidosActivos")}>
+                Pedidos
+              </button>
+            </div>
             {rolUsuario === "1" && (
               <div className="acciones">
-                <button onClick={() => navigate("/Datos")}>Datos</button>
+                <button onClick={() => navigate("/Datos")}>Administracion</button>
               </div>
             )}
           </div>

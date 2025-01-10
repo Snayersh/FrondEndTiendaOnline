@@ -48,12 +48,11 @@ li strong {
   color: black;
 }
 
+/* Botones */
 button {
   width: 48%;
   padding: 10px;
   margin-top: 10px;
-  background-color: #007bff; 
-  border: 1px solid #007bff;
   border-radius: 4px;
   color: white;
   font-size: 14px;
@@ -61,9 +60,34 @@ button {
   transition: background-color 0.3s, color 0.3s;
 }
 
-button:hover {
-  background-color: #0056b3; 
+button.agregar {
+  background-color: #007bff;
+  border: 1px solid #007bff;
+}
+
+button.agregar:hover {
+  background-color: #0056b3;
   border: 1px solid #0056b3;
+}
+
+button.eliminar {
+  background-color: #dc3545;
+  border: 1px solid #dc3545;
+}
+
+button.eliminar:hover {
+  background-color: #c82333;
+  border: 1px solid #c82333;
+}
+
+button.actualizar {
+  background-color: #28a745;
+  border: 1px solid #28a745;
+}
+
+button.actualizar:hover {
+  background-color: #218838;
+  border: 1px solid #218838;
 }
 
 .error {
@@ -72,6 +96,7 @@ button:hover {
   margin-top: 5px;
 }
 
+/* Media Queries para hacer que sea responsivo */
 @media (max-width: 600px) {
   .producto-container, .carrito-container {
     padding: 20px;
@@ -136,7 +161,7 @@ button:hover {
 
 .carrito-total button {
   padding: 10px 20px;
-  background-color: #28a745; 
+  background-color: #28a745;
   color: white;
   border: 1px solid #28a745;
   border-radius: 5px;
@@ -145,6 +170,6 @@ button:hover {
 }
 
 .carrito-total button:hover {
-  background-color: #218838; 
+  background-color: #218838;
   border: 1px solid #218838;
 }

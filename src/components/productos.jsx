@@ -27,6 +27,7 @@ const Productos = () => {
         id: producto.idProdcutos,
         nombre: producto.nombre,
         marca: producto.marca,
+        Categoria: producto.CategoriaProductos_idCategoriaProducto,
         precio: producto.precio,
         stock: producto.stock,
         estado: obtenerEstado(producto.estados_idestados),
@@ -60,19 +61,27 @@ const Productos = () => {
   };
 
   const handleActualizar = async (id) => {
-    navigate(`/actualizar/${id}`);
+    navigate(`/ActualizarProducto/${id}`);
   };
 
   const handleEliminar = async (id) => {
     try {
-      await axios.put(`http://localhost:3000/api/ProductosDel/${id}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      // Realiza la solicitud PUT para la eliminación lógica
+      await axios.put(
+        `http://localhost:3000/api/ProductosDel/${id}`,
+        {},
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
       alert("Producto eliminado exitosamente");
       obtenerProductos();
     } catch (error) {
       console.error("Error al eliminar el producto:", error);
-      alert("Error al eliminar el producto: " + error.message);
+      alert(
+        "Error al eliminar el producto: " +
+          (error.response?.data?.message || error.message)
+      );
     }
   };
 
@@ -140,10 +149,17 @@ const Productos = () => {
               <strong>Estado:</strong> {producto.estado}
             </p>
 
-            {producto.foto && (
+            {/* Mostrar la foto si existe */}
+            {producto.foto ? (
               <img
-                src={producto.foto}
+                src={`data:image/jpeg;base64,${producto.foto}`} // Usando base64
                 alt={producto.nombre}
+                className="producto-img"
+              />
+            ) : (
+              <img
+                src="https://via.placeholder.com/150" // Imagen por defecto si no hay foto
+                alt="Producto no disponible"
                 className="producto-img"
               />
             )}

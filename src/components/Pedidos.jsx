@@ -28,15 +28,15 @@ const ProcesarPedido = () => {
       return;
     }
 
-    const nombre_completo = localStorage.getItem("nombre_completo");
-    const direccion = localStorage.getItem("direccion");
-    const telefono = localStorage.getItem("telefono");
-    const correo_electronico = localStorage.getItem("correo_electronico");
+    const nombre_completo = localStorage.getItem("nombre_completo") || "";
+    const direccion = localStorage.getItem("direccion") || "";
+    const telefono = localStorage.getItem("telefono") || "";
+    const correo_electronico = localStorage.getItem("correo_electronico") || "";
     const usuarios_idusuarios = localStorage.getItem("id");
 
     if (!nombre_completo || !direccion || !telefono || !correo_electronico) {
       alert("Información del usuario incompleta. Verifica tu cuenta.");
-      navigate("/Perfil");
+      navigate("/ActualizarUsuario");
       return;
     }
 

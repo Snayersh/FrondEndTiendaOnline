@@ -21,6 +21,8 @@ import NuevoCliente from "./components/NuevoCliente";
 import ActualizarCliente from "./components/ActualizarCliente ";
 import EliminarUsuario from "./components/EliminarUsuario";
 import ListapedidosActivos from './components/ListaPedidosActivos'
+import ResultadosBusqueda from './components/ResultadosBusqueda'
+import CategoriaProducto from './components/ProductosPorCategoria'
 
 function App() {
   return (
@@ -140,10 +142,26 @@ function App() {
             </Proteccion>
           }
         ></Route>
+          <Route
+          path="/CategoriaProducto/:id"
+          element={
+            <Proteccion rolse={["1","2"]}>
+              <CategoriaProducto></CategoriaProducto>
+            </Proteccion>
+          }
+        ></Route>
         <Route
           path="/EliminarUsuario"
           element={
             <Proteccion rolse={["1", "2"]}>
+              <EliminarUsuario></EliminarUsuario>
+            </Proteccion>
+          }
+        ></Route>
+             <Route
+          path="/EliminarUsuario/:id"
+          element={
+            <Proteccion rolse={["1"]}>
               <EliminarUsuario></EliminarUsuario>
             </Proteccion>
           }
@@ -153,6 +171,14 @@ function App() {
           element={
             <Proteccion rolse={["1", "2"]}>
               <ListapedidosActivos></ListapedidosActivos>
+            </Proteccion>
+          }
+        ></Route>
+            <Route
+          path="/ResultadosBusqueda"
+          element={
+            <Proteccion rolse={["1", "2"]}>
+              <ResultadosBusqueda></ResultadosBusqueda>
             </Proteccion>
           }
         ></Route>

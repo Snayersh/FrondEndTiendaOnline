@@ -11,16 +11,18 @@ const ActualizarProducto = () => {
   const token = localStorage.getItem("token");
   const { id } = useParams();
   const [producto, setProducto] = useState(null);
+  const [categorias, setCategorias] = useState([]);
+  const [foto, setFoto] = useState(null);
 
   const validacionSchema = yup.object().shape({
-    CategoriaProductos_idCategoriaProductos: yup.number(),
+    CategoriaProductos_idCategoriaProducto: yup.number().required("La categoría es obligatoria"),
     nombre: yup.string(),
     marca: yup.string(),
     codigo: yup.string(),
     stock: yup.number(),
     estados_idestados: yup.number(),
     precio: yup.number().min(1, "El precio debe ser mayor a 0"),
-    foto: yup.string(),
+    foto: yup.mixed(), // Para manejar archivos
   });
 
   const {
@@ -36,13 +38,18 @@ const ActualizarProducto = () => {
     const fetchProducto = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3000/api/Productos/${id}`,
+          `http://localhost:3000/api/Producto/${id}`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
         setProducto(response.data);
         Object.keys(response.data).forEach((key) => {
-          setValue(key, response.data[key]);
+          if (key !== 'foto') {  // No establecer foto con setValue
+            setValue(key, response.data[key]);
+          }
         });
+        if (response.data.foto) {
+          setFoto(response.data.foto);
+        }
       } catch (error) {
         console.error("Error al obtener los datos del producto:", error);
         alert("Error al cargar el producto.");
@@ -50,23 +57,54 @@ const ActualizarProducto = () => {
       }
     };
 
+    const fetchCategorias = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:3000/api/CategoriaProductos",
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+        const categoriasFiltradas = response.data.filter(
+          (categoria) => categoria.estados_idestados === 1
+        );
+        setCategorias(categoriasFiltradas);
+      } catch (error) {
+        console.error("Error al obtener las categorías:", error);
+      }
+    };
+
     fetchProducto();
-  }, [id, setValue, navigate]);
+    fetchCategorias();
+  }, [id, setValue, navigate, token]);
+
+  const handleFotoChange = (e) => {
+    const file = e.target.files[0];
+    if (file && file.size <= 10 * 1024 * 1024) {  // Validamos que no supere los 10MB
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setFoto(reader.result.split(",")[1]);  // Guardamos solo la parte base64
+      };
+      reader.readAsDataURL(file);
+    } else {
+      alert("La imagen excede el tamaño máximo permitido de 10MB.");
+    }
+  };
 
   const onSubmit = async (data) => {
     try {
       const idUsuario = localStorage.getItem("id");
 
       const dataConUsuario = idUsuario
-        ? { ...data, idusuarios: idUsuario }
-        : data;
+        ? { ...data, idusuarios: idUsuario, foto: foto }
+        : { ...data, foto: foto };
 
       await axios.put(
         `http://localhost:3000/api/Productos/${id}`,
-        { headers: { Authorization: `Bearer ${token}` } },
         dataConUsuario,
         {
-          headers: { "Content-Type": "application/json" },
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
         }
       );
 
@@ -78,7 +116,7 @@ const ActualizarProducto = () => {
     }
   };
 
-  if (!producto) return <div>Cargando datos del producto...</div>;
+  if (!producto || categorias.length === 0) return <div>Cargando datos...</div>;
 
   return (
     <div className="producto-container">
@@ -86,12 +124,19 @@ const ActualizarProducto = () => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <div>
           <label>Categoría:</label>
-          <input
-            type="number"
-            {...register("CategoriaProductos_idCategoriaProductos")}
-          />
-          {errors.CategoriaProductos_idCategoriaProductos && (
-            <p>{errors.CategoriaProductos_idCategoriaProductos.message}</p>
+          <select
+            {...register("CategoriaProductos_idCategoriaProducto")}
+            defaultValue={producto.CategoriaProductos_idCategoriaProducto}
+          >
+            <option value="">Selecciona una categoría</option>
+            {categorias.map((categoria) => (
+              <option key={categoria.idCategoriaProductos} value={categoria.idCategoriaProductos}>
+                {categoria.nombre}
+              </option>
+            ))}
+          </select>
+          {errors.CategoriaProductos_idCategoriaProducto && (
+            <p>{errors.CategoriaProductos_idCategoriaProducto.message}</p>
           )}
         </div>
         <div>
@@ -133,8 +178,13 @@ const ActualizarProducto = () => {
           {errors.precio && <p>{errors.precio.message}</p>}
         </div>
         <div>
-          <label>Foto (Base64):</label>
-          <input type="text" {...register("foto")} />
+          <label>Foto:</label>
+          {foto && <img src={`data:image/jpeg;base64,${foto}`} alt="Producto" />}
+          <input
+            type="file"
+            accept="image/*"
+            onChange={handleFotoChange}
+          />
           {errors.foto && <p>{errors.foto.message}</p>}
         </div>
         <button type="submit">Actualizar Producto</button>

@@ -27,7 +27,7 @@ const Listaprodutos = () => {
         precio: producto.precio,
         stock: producto.stock,
         estado: obtenerEstado(producto.estados_idestados),
-        foto: producto.foto,
+        foto: producto.foto ? `data:image/jpeg;base64,${producto.foto}` : null, // Aquí lo convertimos a base64
       }));
       setProductos(productoseparado);
 
@@ -133,10 +133,17 @@ const Listaprodutos = () => {
               <strong>Estado:</strong> {producto.estado}
             </p>
 
-            {producto.foto && (
+            {/* Mostrar la foto, si existe */}
+            {producto.foto ? (
               <img
-                src={producto.foto}
+                src={producto.foto} // Usando base64 directamente
                 alt={producto.nombre}
+                className="producto-img"
+              />
+            ) : (
+              <img
+                src="https://via.placeholder.com/150" // Imagen por defecto si no existe
+                alt="Producto no disponible"
                 className="producto-img"
               />
             )}

@@ -1,11 +1,18 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import "../styles/ordenes.css"; // Agrega tus estilos personalizados aquí.
+import "../styles/ordenes.css";
 
 const Listapedidos = () => {
   const [ordenes, setOrdenes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  const estados = {
+    1: "Entregado",
+    2: "Eliminado",
+    3: "Pendiente de Confirmar",
+  };
+
   useEffect(() => {
     const fetchOrdenes = async () => {
       try {
@@ -21,7 +28,12 @@ const Listapedidos = () => {
           },
         });
 
-        setOrdenes(response.data.mensaje);
+        const ordenesFiltradas = response.data.mensaje.filter(
+          (orden) =>
+           orden.estados_idestados === 3 // Solo estado 3
+        );
+
+        setOrdenes(ordenesFiltradas);
         setLoading(false);
       } catch (err) {
         console.error("Error al obtener las órdenes:", err);
@@ -33,9 +45,57 @@ const Listapedidos = () => {
     fetchOrdenes();
   }, []);
 
-  const handleAceptar = (idOrden) => {};
+  const handleEliminar = async (idOrden) => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        alert("Por favor, inicia sesión para continuar.");
+        return;
+      }
 
-  const handleEliminar = (idOrden) => {};
+      await axios.post(
+        `http://localhost:3000/api/OrdenDel/${idOrden}`, 
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      alert("Orden eliminada con éxito.");
+      setOrdenes(ordenes.filter((orden) => orden.idOrden !== idOrden));
+    } catch (error) {
+      console.error("Error al eliminar la orden:", error);
+      alert("Error al eliminar la orden.");
+    }
+  };
+
+  const handleEntregar = async (idOrden) => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        alert("Por favor, inicia sesión para continuar.");
+        return;
+      }
+
+      await axios.post(
+        `http://localhost:3000/api/OrdenEntregada/${idOrden}`,  
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      alert("Orden marcada como entregada con éxito.");
+      setOrdenes(ordenes.filter((orden) => orden.idOrden !== idOrden));
+    } catch (error) {
+      console.error("Error al marcar la orden como entregada:", error);
+      alert("Error al marcar la orden como entregada.");
+    }
+  };
 
   if (loading) return <p>Cargando órdenes...</p>;
   if (error) return <p>{error}</p>;
@@ -69,14 +129,21 @@ const Listapedidos = () => {
               <p>
                 <strong>Total:</strong> Q{orden.total_orden}
               </p>
+              <p>
+                <strong>Estado:</strong> {estados[orden.estados_idestados]}
+              </p>
             </div>
             <div className="orden-actions">
-              <button onClick={() => handleAceptar(orden.idOrden)}>
-                Aceptar
-              </button>
-              <button onClick={() => handleEliminar(orden.idOrden)}>
-                Eliminar
-              </button>
+              {orden.estados_idestados === 3 && (
+                <button onClick={() => handleEliminar(orden.idOrden)}>
+                  Cancelar Orden
+                </button>
+              )}
+              {orden.estados_idestados === 3 && (
+                <button onClick={() => handleEntregar(orden.idOrden)}>
+                  Entregar
+                </button>
+              )}
             </div>
           </li>
         ))}
